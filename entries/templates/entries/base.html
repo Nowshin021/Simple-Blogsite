@@ -1,0 +1,109 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Just Another Blogsite</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'entries/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'entries/css/blog-home.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'blog-home' %}">Just Another Blogsite</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {% if user.is_authenticated %}
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <form method="GET">
+                        <input type="text" class="form-control" name="q" id="id_q" placeholder="Doesn't work yet 😔 ">
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create-entry' %}">Post Now</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </li>
+            </ul>
+        </div>
+        {% else %}
+        <div class="collapse navbar-collapse" >
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</nav>
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        {% block content %}
+        {% endblock %}
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+            {% if user.is_authenticated %}
+            <!-- Side Widget -->
+            <div class="card my-4">
+                <h5 class="card-header text-center">Logged in Information</h5>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <p> <strong>Username:</strong> {{ user.username }} </p>
+                        </li>
+                        <li>
+                            <p> <strong>Email:</strong> {{ user.email }} </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="card my-4">
+                <img src="{% static 'images/logo.png' %}">
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+
+<!-- /.container -->
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Just Another Blogsite 2020</p>
+    </div>
+    <!-- /.container -->
+</footer>
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'entries/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'entries/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script type="text/javascript">
+    document.getElementById("id_q").value = "{{ query }}";
+</script>
+
+</body>
+
+</html>
